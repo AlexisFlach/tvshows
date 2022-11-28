@@ -2,12 +2,18 @@ import React, { createContext, useState, useMemo, useRef } from 'react';
 import { showListType } from '../types/show/showList.types';
 import { showPageType } from '../types/show/showPage.types';
 
+type ErrorHandling = {
+    hasError: boolean;
+    message: string;
+}
+
 interface IState {
     shows: showListType[];
     show: showPageType | null;
     isLoading: boolean;
     fetchShows: () => void;
     fetchShow: (id: number) => void;
+    error:  ErrorHandling;
 }
 
 
@@ -17,6 +23,10 @@ const initialState: IState = {
     show: null,
     fetchShows: () => { },
     fetchShow: (id: any) => { },
+    error: {
+        hasError: false,
+        message: ""
+    }
 };
 
 export const ShowsContext = createContext(initialState);
@@ -26,6 +36,8 @@ export const ShowsProvider = ({ children }: React.PropsWithChildren) => {
     const [isLoading, setIsLoading] = useState(false);
     const [shows, setShows] = useState<showListType[]>([]);
     const [show, setShow] = useState<showPageType | null>(null);
+    const [error, setError] = useState<ErrorHandling>({ hasError: false, message: "" });
+    
 
     type Cache<T> = { [url: string]: T };
 
@@ -74,7 +86,7 @@ export const ShowsProvider = ({ children }: React.PropsWithChildren) => {
                 setIsLoading(false);
                // cache.set('shows', data);
             } catch (error: any) {
-
+                setError({ hasError: true, message: error.message });
             }
         }
     }
@@ -86,13 +98,13 @@ export const ShowsProvider = ({ children }: React.PropsWithChildren) => {
             const data = await response.json();
             setShow(data);
             setIsLoading(false);
-        } catch (error: any) {
-
+        } catch (error: any ) {
+           setError({ hasError: true, message: error.message });
         }
     }
 
     return (
-        <ShowsContext.Provider value={{ isLoading, fetchShows, fetchShow, shows, show }}>
+        <ShowsContext.Provider value={{ isLoading, fetchShows, fetchShow, shows, show, error }}>
             {children}
         </ShowsContext.Provider>
     )
