@@ -40,6 +40,7 @@ export const ShowsProvider = ({ children }: React.PropsWithChildren) => {
     // }, []);
 
     // DRY -> skulle man kunna skapa en custom hook för att fetcha data? fetchshows, fetchshow -> useFetch
+    
     const fetchShows = async () => {
         setIsLoading(true);
 
