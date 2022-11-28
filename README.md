@@ -1,16 +1,11 @@
 # Tv Series
 
-###### Error Handling
+###### TODO
 
-Försöker hitta ett snyggt sätt att hantera errors.
+Layout -> HTML CSSS
 
-Tänker något i stil med 
+Test -> lägga till fler
 
-```
-export class ErrorHandler {
-    hasError: boolean,
-    message: string
-}
-```
-
-
+Allmän refactoring till att bryta ut logik från komponenter
+    - pagination i Shows.ts
+    - fetch i ShowsContext till services eller custom hooks
