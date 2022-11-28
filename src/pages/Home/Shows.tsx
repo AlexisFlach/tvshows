@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ShowContext from "../../context/ShowsContext";
 import { showListType } from "../../types/show/showList.types";
 import ShowListItem from "./ShowListItem";
@@ -28,6 +28,7 @@ const Shows = () => {
     return (
         <div>
             {isLoading && <div>Loading...</div>}
+            <h1>Tv Shows</h1>
             {shows && currentShows.map((show: showListType) => (
                 <ShowListItem key={show.id} show={show} />
             )
