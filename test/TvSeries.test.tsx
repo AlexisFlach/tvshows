@@ -1,10 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { describe, it, expect, beforeEach } from "@jest/globals";
-import { act } from "react-dom/test-utils";
+import { act } from "react-dom/test-utils"
 
-import {Show} from "../src/pages/Show/";
-import {Shows} from "../src/pages/Home/";
+import {ShowList} from "../src/features/";
 
 describe("TvShowsList", () => {
     let container;
@@ -21,7 +20,7 @@ describe("TvShowsList", () => {
     };
 
     it("renders title", () => {
-        render(<Shows />);
+        render(<ShowList />);
         expect(document.body.textContent).toContain("Tv Shows");
     });
 

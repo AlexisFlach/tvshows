@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ShowContext from "../../context/ShowsContext";
 import { showListType } from "../../types/show/showList.types";
 import { Item } from "./show-item.component";
@@ -6,7 +6,7 @@ import { usePagination } from "../../hooks/usePagination";
 import { SearchForm } from "../search";
 import { Grid } from '../../components/UI/Grid/Grid.styled'
 
-export const List = () => {
+export const List: React.FC = () => {
     const { shows, isLoading, fetchShows } = useContext(ShowContext);
     const { currentItems, paginateBack, paginateForward } = usePagination(shows, 16);
 
