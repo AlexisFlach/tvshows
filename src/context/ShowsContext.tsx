@@ -2,6 +2,7 @@ import React, { createContext, useState, useMemo, useRef } from 'react';
 import { useCache } from '../hooks/useCache';
 import { showListType } from '../types/show/showList.types';
 import { showPageType } from '../types/show/showPage.types';
+import { ApiService } from '../services/api';
 
 type ErrorHandling = {
     hasError: boolean;
@@ -14,9 +15,8 @@ interface IState {
     isLoading: boolean;
     fetchShows: () => void;
     fetchShow: (id: number) => void;
-    error:  ErrorHandling;
+    error: ErrorHandling;
 }
-
 
 const initialState: IState = {
     shows: [],
@@ -39,42 +39,51 @@ export const ShowsProvider = ({ children }: React.PropsWithChildren) => {
     const [show, setShow] = useState<showPageType | null>(null);
     const [error, setError] = useState<ErrorHandling>({ hasError: false, message: "" });
 
-    const {get, set} = useCache();
-    
+    const { get, set } = useCache();
+
     const fetchShows = async () => {
         setIsLoading(true);
 
-        if(get("shows")) {
-            setShows(JSON.parse(get("shows")));
+        const cachedShows = get('shows');
+
+        if (cachedShows) {
+            setShows(JSON.parse(cachedShows));
             setIsLoading(false);
-            console.log("from cache");
             return;
         } else {
             try {
-                const response = await fetch("https://api.tvmaze.com/shows");
-                const data = await response.json();
-                console.log("data from api");
-                
+                const { data } = await ApiService.getShows();
                 setShows(data);
-                set("shows", JSON.stringify(data));
+                set('shows', JSON.stringify(data));
                 setIsLoading(false);
             } catch (error: any) {
                 setError({ hasError: true, message: error.message });
+                setIsLoading(false);
             }
         }
-    }
+    };
 
     const fetchShow = async (id: number) => {
         setIsLoading(true);
-        try {
-            const response = await fetch(`https://api.tvmaze.com/shows/${id}`);
-            const data = await response.json();
-            setShow(data);
+
+        const cachedShow = get(`show-${id}`);
+
+        if (cachedShow) {
+            setShow(JSON.parse(cachedShow));
             setIsLoading(false);
-        } catch (error: any ) {
-           setError({ hasError: true, message: error.message });
+            return;
+        } else {
+            try {
+                const { data } = await ApiService.getShow(id);
+                setShow(data);
+                set(`show-${id}`, JSON.stringify(data));
+                setIsLoading(false);
+            } catch (error: any) {
+                setError({ hasError: true, message: error.message });
+                setIsLoading(false);
+            }
         }
-    }
+    };
 
     return (
         <ShowsContext.Provider value={{ isLoading, fetchShows, fetchShow, shows, show, error }}>
