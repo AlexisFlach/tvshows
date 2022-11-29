@@ -1,4 +1,5 @@
 import React, { createContext, useState, useMemo, useRef } from 'react';
+import { useCache } from '../hooks/useCache';
 import { showListType } from '../types/show/showList.types';
 import { showPageType } from '../types/show/showPage.types';
 
@@ -37,54 +38,26 @@ export const ShowsProvider = ({ children }: React.PropsWithChildren) => {
     const [shows, setShows] = useState<showListType[]>([]);
     const [show, setShow] = useState<showPageType | null>(null);
     const [error, setError] = useState<ErrorHandling>({ hasError: false, message: "" });
-    
 
-    type Cache<T> = { [url: string]: T };
-
-    // Two different approaches to cache API Responses -> 1. useRef, 2. useMemo
-
-    // 1. useRef
-    const cache = useRef<Cache<string>>({});
-
-    // 2. useMemo
-    // const cache = useMemo(() => {
-    //     return new Map();
-    // }, []);
-
-    // DRY -> skulle man kunna skapa en custom hook för att fetcha data? fetchshows, fetchshow -> useFetch
+    const {get, set} = useCache();
     
     const fetchShows = async () => {
         setIsLoading(true);
 
-        // 1. useRef
-        
-        if(cache.current["shows"]) {
-            setShows(JSON.parse(cache.current["shows"]));
-            console.log("data from cache");
+        if(get("shows")) {
+            setShows(JSON.parse(get("shows")));
             setIsLoading(false);
+            console.log("from cache");
             return;
-        }
-
-        // 2. useMemo
-        // if (cache.has('shows')) {
-        //     setShows(cache.get('shows'));
-        //     setIsLoading(false);
-
-        //     console.log("data from cache");
-            
-        //     return;
-        // }
-
-         else {
+        } else {
             try {
                 const response = await fetch("https://api.tvmaze.com/shows");
                 const data = await response.json();
                 console.log("data from api");
                 
                 setShows(data);
-                cache.current["shows"] = JSON.stringify(data);
+                set("shows", JSON.stringify(data));
                 setIsLoading(false);
-               // cache.set('shows', data);
             } catch (error: any) {
                 setError({ hasError: true, message: error.message });
             }
