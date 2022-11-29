@@ -2,24 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import ShowContext from "../../context/ShowsContext";
 import { showListType } from "../../types/show/showList.types";
 import ShowListItem from "./ShowListItem";
+import { usePagination } from "../../hooks/usePagination";
 
 const Shows = () => {
     const { shows, isLoading, fetchShows } = useContext(ShowContext);
-
-    // Vill extrahera denna logiken till en egen hook
-
-    const [showsPerPage] = useState(10);
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const indexOfLastShow = currentPage * showsPerPage;
-    const indexOfFirstShow = indexOfLastShow - showsPerPage;
-    const currentShows = shows.slice(indexOfFirstShow, indexOfLastShow);
-    const paginateForward = () => setCurrentPage(currentPage + 1);
-    const paginateBack = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    }
+    const {currentItems, paginateBack, paginateForward} = usePagination(shows, 10);
 
     useEffect(() => {
         fetchShows();
@@ -29,7 +16,7 @@ const Shows = () => {
         <div>
             {isLoading && <div>Loading...</div>}
             <h1>Tv Shows</h1>
-            {shows && currentShows.map((show: showListType) => (
+            {shows && currentItems.map((show: showListType) => (
                 <ShowListItem key={show.id} show={show} />
             )
             )}
