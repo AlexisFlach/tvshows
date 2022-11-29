@@ -14,7 +14,6 @@ export const Show = () => {
 
   return (
     <div>
-      <h1>Show</h1>
       {isLoading && <p>Loading...</p>}
       {show && (
         <ShowItem show={show} />

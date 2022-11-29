@@ -5,10 +5,16 @@ import { ErrorBoundaries } from './components/ErrorBoundaries';
 import GlobalStyles from './components/UI/global'
 import Navbar from './components/UI/Navbar/Navbar';
 import {Container} from './components/UI/Container/Container.styled';
+import { ThemeProvider } from 'styled-components'
+
 
 const App = () => {
 
+  const theme = {
+    mobile: '768px'
+  }
   return (
+    <ThemeProvider theme={theme}>
     <ShowsProvider>
       <GlobalStyles />
       <BrowserRouter>
@@ -20,6 +26,7 @@ const App = () => {
         </Container>
       </BrowserRouter>
     </ShowsProvider>
+    </ThemeProvider>
   )
 }
 

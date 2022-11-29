@@ -8,4 +8,11 @@ export const StyledHeader = styled.header`
   justify-content: center;
   align-items: center;
   height: 40vh;
+  flex-direction: column;
+
+  h1 {
+    font-size: 5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
 `

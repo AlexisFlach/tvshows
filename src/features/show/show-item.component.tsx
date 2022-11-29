@@ -1,5 +1,8 @@
 import { showPageType } from '../../types/show/showPage.types'
 import { regex } from '../../utils/StripHtmlElements'
+import { ShowHeader } from '../../components/UI/Header/ShowHeader.styled'
+import { StyledLink } from '../../components/UI/Link/Link.styled'
+
 
 interface ShowItemProps {
     show: showPageType
@@ -8,9 +11,13 @@ interface ShowItemProps {
 export const ShowItem = ({ show }: ShowItemProps) => {
 
     return (
-        <>
-            <h2>{show.name}</h2>
-            <p>{show.summary.replace(regex, '')}</p>
-        </>
+        <ShowHeader>
+            <div>
+                <img src={show.image.medium} alt={show.name} />
+                <h2>{show.name}</h2>
+                <p>{show.summary.replace(regex, '')}</p>
+                <StyledLink to="/shows">Back to search</StyledLink>
+            </div>
+        </ShowHeader>
     )
 }
