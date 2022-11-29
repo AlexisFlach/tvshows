@@ -1,18 +1,18 @@
 import { routerType } from "../types/router/router.types";
 import { Route, Routes } from "react-router-dom";
-import {Shows} from "./Home";
-import {Show} from "./Show";
+import {ShowList} from "./index";
+import {ShowPage} from "./show";
 import {NotFound} from "./NotFound";
 
 export const routes: routerType[] = [
     {
         path: "/",
-        element: <Shows />,
+        element: <ShowList />,
         title: "home"
     },
     {
         path: "/shows/:id",
-        element: <Show />,
+        element: <ShowPage />,
         title: "shows"
     },
     {

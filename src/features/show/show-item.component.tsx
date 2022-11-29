@@ -5,7 +5,7 @@ interface ShowItemProps {
     show: showPageType
 }
 
-const ShowItem = ({ show }: ShowItemProps) => {
+export const ShowItem = ({ show }: ShowItemProps) => {
 
     return (
         <>
@@ -14,5 +14,3 @@ const ShowItem = ({ show }: ShowItemProps) => {
         </>
     )
 }
-
-export default ShowItem

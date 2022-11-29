@@ -5,7 +5,7 @@ interface ShowListItemProps {
     show: showListType
 }
 
-const ShowListItem = ({ show }: ShowListItemProps) => {
+export const Item = ({ show }: ShowListItemProps) => {
 
     const navigate = useNavigate();
     const showPage = (id: number) => navigate(`/shows/${id}`);
@@ -17,5 +17,3 @@ const ShowListItem = ({ show }: ShowListItemProps) => {
         </>
     )
 }
-
-export default ShowListItem

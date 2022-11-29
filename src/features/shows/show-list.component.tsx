@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import ShowContext from "../../context/ShowsContext";
 import { showListType } from "../../types/show/showList.types";
-import ShowListItem from "./ShowListItem";
+import { Item } from "./show-item.component";
 import { usePagination } from "../../hooks/usePagination";
 
-const Shows = () => {
+export const List = () => {
     const { shows, isLoading, fetchShows } = useContext(ShowContext);
     const {currentItems, paginateBack, paginateForward} = usePagination(shows, 10);
 
@@ -17,7 +17,7 @@ const Shows = () => {
             {isLoading && <div>Loading...</div>}
             <h1>Tv Shows</h1>
             {shows && currentItems.map((show: showListType) => (
-                <ShowListItem key={show.id} show={show} />
+                <Item key={show.id} show={show} />
             )
             )}
             <br />
@@ -27,5 +27,3 @@ const Shows = () => {
         </div>
     );
 };
-
-export default Shows;
