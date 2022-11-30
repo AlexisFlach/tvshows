@@ -1,5 +1,3 @@
-// create useFetch hook
-
 import { useState, useEffect } from 'react';
 
 interface IState {

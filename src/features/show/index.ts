@@ -1,4 +1,3 @@
-import {Show} from './show-page.component';
+import { Show } from "./show-page.component";
 
-export {Show};
-
+export { Show };
