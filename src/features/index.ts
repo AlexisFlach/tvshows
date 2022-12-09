@@ -1,7 +1,3 @@
-import { List } from './shows/';
-import { Show } from './show/';
+import { List, Page } from "./shows/";
 
-export {
-    List as ShowList,
-    Show as ShowPage
-}
+export { List as ShowList, Page as ShowPage };

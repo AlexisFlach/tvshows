@@ -1,31 +1,39 @@
-import React, { useContext, useEffect } from "react";
-import ShowContext from "../../context/ShowsContext";
-import { showListType } from "../../types/show/showList.types";
-import { Item } from "./show-item.component";
-import { usePagination } from "../../hooks/usePagination";
-import { SearchForm } from "../search";
+import React, { useEffect, useState } from "react";
+import { Item } from "./show-list--item.component";
 import { Grid } from '../../components/UI/Grid/Grid.styled'
 
-export const List: React.FC = () => {
-    const { shows, isLoading, fetchShows } = useContext(ShowContext);
-    const { currentItems, paginateBack, paginateForward } = usePagination(shows, 16);
+import { ShowSearchList } from "./show-list--item_search.component";
+import { useShows } from "./hooks/useShows";
 
-    useEffect(() => {
-        fetchShows();
-    }, []);
+export const List: React.FC = () => {
+    const data = useShows();
+
+    const [searchValue, setSearchValue] = useState<string>('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+    };
+
+    const filteredShows = data.filter(show => show.name.includes(searchValue));
 
     return (
         <div>
-            {isLoading && <div>Loading...</div>}
-            <SearchForm />
+            <input
+                type="text"
+                placeholder="Search..."
+                onChange={handleInputChange}
+                value={searchValue}
+            />
+            {filteredShows.length === 0 && searchValue.length > 0 && (
+                <h1>No shows found</h1>
+            )}
             <Grid>
-                {shows && currentItems.map((show: showListType) => (
-                    <Item key={show.id} show={show} />
-                )
-                )}
+                {filteredShows.map((show, index) => (
+                    <ShowSearchList show={show} key={index} />
+                ))}
+                {filteredShows.length === 0 && searchValue.length === 0 &&
+                    data.map((show, index) => <Item show={show} key={index} />)}
             </Grid>
-            <button onClick={paginateBack}>Back</button>
-            <button onClick={paginateForward}>Next</button>
         </div>
     );
 };

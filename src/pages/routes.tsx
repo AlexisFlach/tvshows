@@ -1,8 +1,8 @@
 import { routerType } from "../types/router/router.types";
 import { Route, Routes } from "react-router-dom";
-import {ShowList} from "./shows";
-import {ShowPage} from "./show";
-import {NotFound} from "./NotFound";
+import { ShowList } from "./shows";
+import { ShowPage } from "./show";
+import { NotFound } from "./NotFound";
 import { Home } from "./home";
 
 export const routes: routerType[] = [
@@ -22,19 +22,19 @@ export const routes: routerType[] = [
         title: "shows"
     },
     {
-    path: "*",
-    element: <NotFound />,
-    title: "not found"
+        path: "*",
+        element: <NotFound />,
+        title: "not found"
     }
 ];
 
 const Router = () => {
     const pageRoutes = routes.map(({ path, title, element }: routerType) => {
-      return <Route key={title} path={`/${path}`} element={element} />;
+        return <Route key={title} path={`/${path}`} element={element} />;
     });
-  
+
     return <Routes>{pageRoutes}</Routes>;
-  };
-  
-  export default Router;
+};
+
+export default Router;
 
